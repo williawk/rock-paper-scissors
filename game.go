@@ -15,8 +15,8 @@ func main() {
 	fmt.Println("Let's play Rock, Paper, Scissors!")
 	machinePlay()
 	playerInput()
-	fmt.Println("The machine plays", machineHand)
 	fmt.Println("You play", playerHand)
+	fmt.Println("The machine plays", machineHand)
 	determineWinner()
 	playAgain()
 }
