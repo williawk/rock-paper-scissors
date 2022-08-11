@@ -18,9 +18,10 @@ func main() {
 	fmt.Println("The machine plays", machineHand)
 	fmt.Println("You play", playerHand)
 	determineWinner()
+	playAgain()
 }
 
-func machinePlay() {
+func machinePlay() { //Function randomizes the hand the machine will play for every round
 	seed := rand.NewSource(time.Now().UnixNano())
 	random := rand.New(seed)
 	machineHand = handTypes[random.Intn(3)]
@@ -81,4 +82,19 @@ func playerWins() {
 
 func machineWins() {
 	fmt.Println("Machine wins, better luck next time...")
+}
+
+func playAgain() {
+	fmt.Println("Do you want to play again?")
+	fmt.Println("y = Yes, n = No")
+	var response string
+	fmt.Scanln(&response)
+	if response == "y" {
+		main()
+	} else if response == "n" {
+		fmt.Println("Thank you for playing")
+	} else {
+		fmt.Println("You can only reply 'y' or 'no'")
+		playAgain()
+	}
 }
