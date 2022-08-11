@@ -13,6 +13,10 @@ var handTypes = [3]string{"Rock", "Paper", "Scissors"}
 
 func main() {
 	fmt.Println("Let's play Rock, Paper, Scissors!")
+	startGame()
+}
+
+func startGame() {
 	machinePlay()
 	playerInput()
 	fmt.Println("You play", playerHand)
@@ -90,11 +94,11 @@ func playAgain() {
 	var response string
 	fmt.Scanln(&response)
 	if response == "y" {
-		main()
+		startGame()
 	} else if response == "n" {
 		fmt.Println("Thank you for playing")
 	} else {
-		fmt.Println("You can only reply 'y' or 'no'")
+		fmt.Println("You can only reply 'y' or 'n'")
 		playAgain()
 	}
 }
