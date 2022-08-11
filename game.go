@@ -20,8 +20,11 @@ func startGame() {
 	machinePlay()
 	playerInput()
 	fmt.Println("You play", playerHand)
+	time.Sleep(time.Second)
 	fmt.Println("The machine plays", machineHand)
+	time.Sleep(time.Second)
 	determineWinner()
+	time.Sleep(2 * time.Second)
 	playAgain()
 }
 
