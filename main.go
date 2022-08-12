@@ -10,13 +10,16 @@ import (
 var machineHand string
 var playerHand string
 var handTypes = [3]string{"Rock", "Paper", "Scissors"}
+var scores Scores
 
 func main() {
-	fmt.Println("Let's play Rock, Paper, Scissors!")
+	scores = loadScores() // Load historical scores from scores.json
 	startGame()
 }
 
 func startGame() {
+	fmt.Println("Let's play Rock, Paper, Scissors!")
+	time.Sleep(time.Second)
 	machinePlay()
 	playerInput()
 	fmt.Println("You play", playerHand)
@@ -67,6 +70,7 @@ func validateInput(input string) bool { //Function checks whether user input is 
 func determineWinner() { //0 = Rock, 1 = Paper, 2 = Scissors
 	switch {
 	case machineHand == playerHand:
+		scores.Draws += 1 // Adds a draw to scoreboard
 		fmt.Println("It's a draw")
 	case machineHand == handTypes[0] && playerHand == handTypes[1]: // Rock vs Paper
 		playerWins()
@@ -84,10 +88,12 @@ func determineWinner() { //0 = Rock, 1 = Paper, 2 = Scissors
 }
 
 func playerWins() {
+	scores.Wins += 1 // Adds a win to scoreboard
 	fmt.Println("You win, well done!")
 }
 
 func machineWins() {
+	scores.Losses += 1 // Adds a loss to scoreboard
 	fmt.Println("Machine wins, better luck next time...")
 }
 
@@ -99,6 +105,8 @@ func playAgain() {
 	if response == "y" {
 		startGame()
 	} else if response == "n" {
+		readScores(scores)       //Shows scoreboard before quit
+		updateScoreboard(scores) //Updates scores.json before program end
 		fmt.Println("Thank you for playing")
 	} else {
 		fmt.Println("You can only reply 'y' or 'n'")
