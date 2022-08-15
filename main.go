@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"os"
 	"strconv"
 	"time"
 )
@@ -14,7 +15,50 @@ var scores Scores
 
 func main() {
 	scores = loadScores() // Load historical scores from scores.json
-	startGame()
+	fmt.Println("\nWelcome to Rock, Paper, Scissors!")
+	startMenu()
+}
+
+func startMenu() {
+	fmt.Println("\n--- MAIN MENU ---")
+	fmt.Println("[1] Start Game")
+	fmt.Println("[2] Show Scoreboard")
+	fmt.Println("[3] Settings")
+	fmt.Println("[4] Quit")
+
+	var choice string
+loop: //Set a label for looping back if player gives invalid input
+	fmt.Scanln(&choice)
+	switch {
+	case choice == "1":
+		startGame()
+	case choice == "2":
+		readScores(scores)
+		time.Sleep(time.Second)
+		startMenu()
+	case choice == "3":
+		fmt.Println("--- SETTINGS ---")
+		fmt.Println("[1] Reset scoreboard")
+		fmt.Println("[2] Go back")
+		for {
+			fmt.Scanln(&choice)
+			if choice == "1" {
+				scores = resetScoreboard()
+				startMenu()
+				break
+			} else if choice == "2" {
+				startMenu()
+				break
+			} else {
+				fmt.Println("You must pick an item from the menu and press Enter")
+			}
+		}
+	case choice == "4":
+		quitGame()
+	default:
+		fmt.Println("You must pick an item from the menu and press Enter")
+		goto loop //Go back to loop and lets player give new input
+	}
 }
 
 func startGame() {
@@ -99,17 +143,22 @@ func machineWins() {
 
 func playAgain() {
 	fmt.Println("Do you want to play again?")
-	fmt.Println("y = Yes, n = No")
+	fmt.Println("[1] Yes \n[2] No")
 	var response string
+loop: //Set a label for looping back if player gives invalid input
 	fmt.Scanln(&response)
-	if response == "y" {
+	if response == "1" {
 		startGame()
-	} else if response == "n" {
-		readScores(scores)       //Shows scoreboard before quit
-		updateScoreboard(scores) //Updates scores.json before program end
-		fmt.Println("Thank you for playing")
+	} else if response == "2" {
+		startMenu()
 	} else {
-		fmt.Println("You can only reply 'y' or 'n'")
-		playAgain()
+		fmt.Println("You must pick an item from the menu and press Enter")
+		goto loop //Go back to loop and lets player give new input
 	}
+}
+
+func quitGame() {
+	updateScoreboard(scores) //Updates scores.json before program end
+	fmt.Println("Thank you for playing")
+	os.Exit(0)
 }
