@@ -22,7 +22,7 @@ func loadScores() Scores {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("Scores have been loaded!")
+	fmt.Println("Scores loaded!")
 	return currentScores
 }
 
@@ -41,10 +41,10 @@ func updateScoreboard(updatedScores Scores) {
 		fmt.Println(err)
 	}
 
-	fmt.Println("Scores have been updated!")
+	//fmt.Println("Scores have been updated!")
 }
 
-func resetScoreboard() {
+func resetScoreboard() Scores {
 	resetScores := Scores{0, 0, 0}
 	content, err := json.Marshal(resetScores)
 	if err != nil {
@@ -57,4 +57,5 @@ func resetScoreboard() {
 	}
 
 	fmt.Println("Scores have been reset!")
+	return resetScores
 }
