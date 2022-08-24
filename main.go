@@ -11,17 +11,20 @@ import (
 var machineHand string
 var playerHand string
 var handTypes = [3]string{"Rock", "Paper", "Scissors"}                                         // Sets the three types of hands that can be played
-var winOutcomes = [3][2]string{{"Rock", "Scissors"}, {"Paper", "Rock"}, {"Scissors", "Paper"}} // Determines winning hands
+var winOutcomes = [3][2]string{{"Rock", "Scissors"}, {"Paper", "Rock"}, {"Scissors", "Paper"}} // Sets possible winning hands
 var scores Scores
 
 func main() {
 	scores = loadScores() // Load historical scores from scores.json
 	fmt.Println("\nWelcome to Rock, Paper, Scissors!")
+	fmt.Println("Press any key to start...")
+	fmt.Scanln()
 	startMenu()
 }
 
 func startMenu() {
-	fmt.Println("\n--- MAIN MENU ---")
+	clearTerminal()
+	fmt.Println("--- MAIN MENU ---")
 	fmt.Println("[1] Start Game")
 	fmt.Println("[2] Show Scoreboard")
 	fmt.Println("[3] Settings")
@@ -41,7 +44,6 @@ loop: //Set a label for looping back if player gives invalid input
 				startGame()
 				break
 			} else if choice == "2" {
-				fmt.Println("Let's play Rock, Paper, Scissors!")
 				startGamePvP()
 				break
 			} else {
@@ -91,11 +93,16 @@ func startGame() { //Single player
 }
 
 func startGamePvP() { //Multiplayer
+	clearTerminal()
+	fmt.Println("Let's play Rock, Paper, Scissors!")
 	time.Sleep(time.Second)
 	fmt.Println("Player 1")
 	player1Hand := playerInput()
+	clearTerminal()
+	time.Sleep(time.Second)
 	fmt.Println("Player 2")
 	player2Hand := playerInput()
+	clearTerminal()
 	fmt.Println("Player 1 play", player1Hand)
 	time.Sleep(time.Second)
 	fmt.Println("Player 2 play", player2Hand)
@@ -215,6 +222,10 @@ loop: //Set a label for looping back if player gives invalid input
 		fmt.Println("You must pick an item from the menu and press Enter")
 		goto loop //Go back to loop and lets player give new input
 	}
+}
+
+func clearTerminal() {
+	fmt.Print("\033[H\033[2J") //Clears the terminal window
 }
 
 func quitGame() {
