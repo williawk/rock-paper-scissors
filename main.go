@@ -10,7 +10,8 @@ import (
 
 var machineHand string
 var playerHand string
-var handTypes = [3]string{"Rock", "Paper", "Scissors"}
+var handTypes = [3]string{"Rock", "Paper", "Scissors"}                                         // Sets the three types of hands that can be played
+var winOutcomes = [3][2]string{{"Rock", "Scissors"}, {"Paper", "Rock"}, {"Scissors", "Paper"}} // Determines winning hands
 var scores Scores
 
 func main() {
@@ -65,7 +66,7 @@ func startGame() {
 	fmt.Println("Let's play Rock, Paper, Scissors!")
 	time.Sleep(time.Second)
 	machinePlay()
-	playerInput()
+	playerHand = playerInput()
 	fmt.Println("You play", playerHand)
 	time.Sleep(time.Second)
 	fmt.Println("The machine plays", machineHand)
@@ -81,7 +82,7 @@ func machinePlay() { //Function randomizes the hand the machine will play for ev
 	machineHand = handTypes[random.Intn(3)]
 }
 
-func playerInput() {
+func playerInput() string {
 	fmt.Println("What will you play?")
 	fmt.Println("1 = Rock, 2 = Paper, 3= Scissors")
 	var play int     //Variable will be used as int value for rock, paper, or scissors
@@ -100,7 +101,7 @@ func playerInput() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	playerHand = handTypes[play-1]
+	return handTypes[play-1]
 }
 
 func validateInput(input string) bool { //Function checks whether user input is one of three allowed inputs
@@ -111,23 +112,28 @@ func validateInput(input string) bool { //Function checks whether user input is 
 	}
 }
 
-func determineWinner() { //0 = Rock, 1 = Paper, 2 = Scissors
+func determineWinner() { // Determines winner in single player vs machine
+	hands := [2]string{playerHand, machineHand}
 	switch {
 	case machineHand == playerHand:
 		scores.Draws += 1 // Adds a draw to scoreboard
 		fmt.Println("It's a draw")
-	case machineHand == handTypes[0] && playerHand == handTypes[1]: // Rock vs Paper
+	case hands == winOutcomes[0] || hands == winOutcomes[1] || hands == winOutcomes[2]:
 		playerWins()
-	case machineHand == handTypes[0] && playerHand == handTypes[2]: // Rock vs Scissors
+	default:
 		machineWins()
-	case machineHand == handTypes[1] && playerHand == handTypes[0]: // Paper vs Rock
-		machineWins()
-	case machineHand == handTypes[1] && playerHand == handTypes[2]: // Paper vs Scissors
-		playerWins()
-	case machineHand == handTypes[2] && playerHand == handTypes[0]: // Scissors vs Rock
-		playerWins()
-	case machineHand == handTypes[2] && playerHand == handTypes[1]: // Scissors vs Paper
-		machineWins()
+	}
+}
+
+func determineWinnerPvP(player1 string, player2 string) { // Determines winner in Player vs Player
+	hands := [2]string{player1, player2}
+	switch {
+	case player1 == player2:
+		//Draw and play again
+	case hands == winOutcomes[0] || hands == winOutcomes[1] || hands == winOutcomes[2]:
+		// Player 1 wins
+	default:
+		// Player 2 wins
 	}
 }
 
