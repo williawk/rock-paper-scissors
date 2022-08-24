@@ -32,7 +32,22 @@ loop: //Set a label for looping back if player gives invalid input
 	fmt.Scanln(&choice)
 	switch {
 	case choice == "1":
-		startGame()
+		fmt.Println("[1] Single player")
+		fmt.Println("[2] Multiplayer")
+		for {
+			fmt.Scanln(&choice)
+			if choice == "1" {
+				fmt.Println("Let's play Rock, Paper, Scissors!")
+				startGame()
+				break
+			} else if choice == "2" {
+				fmt.Println("Let's play Rock, Paper, Scissors!")
+				startGamePvP()
+				break
+			} else {
+				fmt.Println("You must pick an item from the menu and press Enter")
+			}
+		}
 	case choice == "2":
 		readScores(scores)
 		time.Sleep(time.Second)
@@ -62,8 +77,7 @@ loop: //Set a label for looping back if player gives invalid input
 	}
 }
 
-func startGame() {
-	fmt.Println("Let's play Rock, Paper, Scissors!")
+func startGame() { //Single player
 	time.Sleep(time.Second)
 	machinePlay()
 	playerHand = playerInput()
@@ -76,6 +90,21 @@ func startGame() {
 	playAgain()
 }
 
+func startGamePvP() { //Multiplayer
+	time.Sleep(time.Second)
+	fmt.Println("Player 1")
+	player1Hand := playerInput()
+	fmt.Println("Player 2")
+	player2Hand := playerInput()
+	fmt.Println("Player 1 play", player1Hand)
+	time.Sleep(time.Second)
+	fmt.Println("Player 2 play", player2Hand)
+	time.Sleep(time.Second)
+	determineWinnerPvP(player1Hand, player2Hand)
+	time.Sleep(2 * time.Second)
+	playAgainPvP()
+}
+
 func machinePlay() { //Function randomizes the hand the machine will play for every round
 	seed := rand.NewSource(time.Now().UnixNano())
 	random := rand.New(seed)
@@ -84,13 +113,13 @@ func machinePlay() { //Function randomizes the hand the machine will play for ev
 
 func playerInput() string {
 	fmt.Println("What will you play?")
-	fmt.Println("1 = Rock, 2 = Paper, 3= Scissors")
+	fmt.Println("[1] = Rock\n[2] = Paper\n[3] = Scissors")
 	var play int     //Variable will be used as int value for rock, paper, or scissors
 	var input string //Variable contains user input
 
 	for { //Loop that runs until user gives valid input
 		fmt.Scanln(&input)
-		if validateInput(input) {
+		if input == "1" || input == "2" || input == "3" {
 			break
 		} else {
 			fmt.Println("You can only input 1, 2, or 3")
@@ -130,10 +159,15 @@ func determineWinnerPvP(player1 string, player2 string) { // Determines winner i
 	switch {
 	case player1 == player2:
 		//Draw and play again
+		fmt.Println("It's a draw!")
+		fmt.Println("Try again!")
+		startGamePvP()
 	case hands == winOutcomes[0] || hands == winOutcomes[1] || hands == winOutcomes[2]:
 		// Player 1 wins
+		playerWinsPvP("Player 1")
 	default:
 		// Player 2 wins
+		playerWinsPvP("Player 2")
 	}
 }
 
@@ -147,6 +181,10 @@ func machineWins() {
 	fmt.Println("Machine wins, better luck next time...")
 }
 
+func playerWinsPvP(name string) {
+	fmt.Println(name, "wins!")
+}
+
 func playAgain() {
 	fmt.Println("Do you want to play again?")
 	fmt.Println("[1] Yes \n[2] No")
@@ -155,6 +193,22 @@ loop: //Set a label for looping back if player gives invalid input
 	fmt.Scanln(&response)
 	if response == "1" {
 		startGame()
+	} else if response == "2" {
+		startMenu()
+	} else {
+		fmt.Println("You must pick an item from the menu and press Enter")
+		goto loop //Go back to loop and lets player give new input
+	}
+}
+
+func playAgainPvP() {
+	fmt.Println("Do you want to play again?")
+	fmt.Println("[1] Yes \n[2] No")
+	var response string
+loop: //Set a label for looping back if player gives invalid input
+	fmt.Scanln(&response)
+	if response == "1" {
+		startGamePvP()
 	} else if response == "2" {
 		startMenu()
 	} else {
