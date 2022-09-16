@@ -38,6 +38,7 @@ let winOutcomes = [["Rock", "Scissors"], ["Paper", "Rock"], ["Scissors", "Paper"
       setresult("Player 2 wins!")
       console.log("er vi her? 3")
     }
+    //restart()
   }
   
   function setChoice(weapon){
