@@ -2,14 +2,11 @@ import './App.css';
 import React, { useState } from 'react';
 let choices = []
 
-
   function App() {
     const [result, setresult] = useState("Spillet har ikke startet enda!");
     const [player, setPlayer] = useState("Player1");
 
-
-
-let gameStarts = false
+//let gameStarts = false
 
 let player1Hand = ""
 let player2Hand = ""
@@ -31,7 +28,7 @@ let winOutcomes = [['Rock', 'Scissors'], ["Paper", "Rock"], ["Scissors", "Paper"
     if (player1Hand === player2Hand) {
       setresult("draw!")
       console.log("Draw")
-    } else if (hands == JSON.stringify(winOutcomes[0]) || hands === JSON.stringify(winOutcomes[1]) || hands === JSON.stringify(winOutcomes[2])) {
+    } else if (hands === JSON.stringify(winOutcomes[0]) || hands === JSON.stringify(winOutcomes[1]) || hands === JSON.stringify(winOutcomes[2])) {
       setresult("Player 1 wins!")
       console.log("Player 1 win")
     } else {
@@ -50,6 +47,8 @@ let winOutcomes = [['Rock', 'Scissors'], ["Paper", "Rock"], ["Scissors", "Paper"
 
 
   function restart () {
+    //Show a restart button to be clicked
+    //When clicked, perform the actions below
     choices = []
     setresult("Spillet har restartet!")
     setPlayer("Player 1") 
@@ -64,9 +63,6 @@ let winOutcomes = [['Rock', 'Scissors'], ["Paper", "Rock"], ["Scissors", "Paper"
     }
   }
   
-
-
-
     return (
       <div className="App">
       <h1>William and Marius's 🤘 📃 ✂️!</h1>
