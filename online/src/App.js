@@ -15,7 +15,7 @@ let player1Hand = ""
 let player2Hand = ""
 
 let handTypes = ["Rock", "Paper", "Scissors"]
-let winOutcomes = [["Rock", "Scissors"], ["Paper", "Rock"], ["Scissors", "Paper"]]
+let winOutcomes = [['Rock', 'Scissors'], ["Paper", "Rock"], ["Scissors", "Paper"]]
 
 // function startGame(){
   //   //Start game when button is pushed
@@ -24,26 +24,40 @@ let winOutcomes = [["Rock", "Scissors"], ["Paper", "Rock"], ["Scissors", "Paper"
   
   
   function determineWinner (choices){
-    console.log("Kommer vi hit?", choices)
     player1Hand = handTypes[choices[0]]
     player2Hand = handTypes[choices[1]]
-    let hands = [player1Hand, player2Hand]
+    let hands = JSON.stringify([player1Hand, player2Hand])
+
     if (player1Hand === player2Hand) {
       setresult("draw!")
-      console.log("er vi her? 1")
-    } else if (winOutcomes.includes(hands)) {
+      console.log("Draw")
+    } else if (hands == JSON.stringify(winOutcomes[0]) || hands === JSON.stringify(winOutcomes[1]) || hands === JSON.stringify(winOutcomes[2])) {
       setresult("Player 1 wins!")
-      console.log("er vi her? 2")
+      console.log("Player 1 win")
     } else {
       setresult("Player 2 wins!")
-      console.log("er vi her? 3")
+      console.log("Player 2 win")
     }
-    //restart()
+    delay(3000).then(() => restart());
+    // Need to add a time delay before showing winner
+    
   }
   
+  function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+  }
+  
+
+
+  function restart () {
+    choices = []
+    setresult("Spillet har restartet!")
+    setPlayer("Player 1") 
+  }
+
   function setChoice(weapon){
     choices.push(weapon)
-    setPlayer("Player2")
+    setPlayer("Player 2")
     console.log(choices)
     if (choices.length === 2){
       determineWinner(choices)
@@ -55,11 +69,11 @@ let winOutcomes = [["Rock", "Scissors"], ["Paper", "Rock"], ["Scissors", "Paper"
 
     return (
       <div className="App">
-      <h1>William and Marius's 🪨 ✂️ 📃!</h1>
+      <h1>William and Marius's 🤘 📃 ✂️!</h1>
       <h2>⚠️BREAKING NEWS⚠️: Now online!🤩</h2>
       <h3>Choose a weapon {player}:</h3>
 
-    <button onClick={()=>setChoice(0)}>🪨</button><button onClick={()=>setChoice(1)}>✂️</button><button onClick={()=>setChoice(2)}>📃</button>
+    <button onClick={()=>setChoice(0)}>🤘</button><button onClick={()=>setChoice(1)}>📃</button><button onClick={()=>setChoice(2)}>✂️</button>
 
     <p>Result:{result}</p>
 
